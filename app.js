@@ -51,12 +51,24 @@ app.post("/articles", function(req, res){
       if (!err){
         res.send("Successfully deleted all articles.");      
       } else{
-        res.send(err);
+        res.send(err)
       }
     })
   })
  
 })
+
+//// Targeting a scpecific article in ///////
+app.route("/article/:articleTitle")
+  .get(function(req, res){
+    Article.findOne({title: req.params.articleTitle}, function(err, foundArticle){
+      if (foundArticle){
+        res.send(foundArticle);
+      } else {
+        res.send("No articles matching the title was found");
+      }
+    });
+  });
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
